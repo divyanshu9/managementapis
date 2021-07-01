@@ -55,9 +55,13 @@ REST_FRAMEWORK = {
     #         'rest_framework.permissions.IsAuthenticated',
     #     ),
     'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend']
-}
+        'django_filters.rest_framework.DjangoFilterBackend'],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework_api_key.permissions.HasAPIKey",
+    ]
 
+}
+#SQVfiDrR.VwphcgLLe3rMJ3j0eGOp6amZOu7nzcvD
 CRON_CLASSES = [
     "benefits_and_claims.investment.api.v1.utils.UpdateInvestmentStatus",
 ]

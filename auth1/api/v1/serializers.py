@@ -1,9 +1,9 @@
 from rest_framework import serializers
+from auth1.models import UserRole
 
 
-# class GeneralHLApplicationNumberListSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = Application
-#         fields = ['id', 'application_number', 'uuid', 'personnel_number', 'loan_type']
+class UserRoleSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = UserRole
+        fields = "__all__"

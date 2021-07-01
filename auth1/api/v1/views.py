@@ -13,16 +13,15 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.http import HttpResponse
 
-from auth1.models import UserDetail
+from auth1.models import UserDetail, UserRole
 from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
+from .serializers import UserRoleSerializer
 #from .token import account_activation_token
 
 
 class ChangePassword(APIView):
-
-    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.data.get("username")
@@ -52,8 +51,6 @@ class ChangePassword(APIView):
 
 class Login(APIView):
 
-    permission_classes = [AllowAny]
-
     def post(self, request):
         name = request.data.get("username")
         password = request.data.get("password")
@@ -80,6 +77,8 @@ class Login(APIView):
 
 
 class Register(APIView):
+
+    permission_classes = [AllowAny]
 
     def post(self, request):
         #password1 = request.data.get("password")
@@ -143,3 +142,11 @@ def activate(request, uidb64, token):
                             ' <a href="%s/login">Here</a> to login.' % site_url)
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+class UserRolesListAPIView(generics.ListAPIView):
+    """
+    User Roles List Api
+    """
+    serializer_class = UserRoleSerializer
+    queryset = UserRole.objects.all().order_by("-id")

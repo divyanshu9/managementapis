@@ -14,7 +14,7 @@ def random_with_n_digits(n):
 
 
 def random_with_n_aplha(n):
-    return ''.join(random.choices(string.ascii_uppercase +
+    return ''.join(random.sample(string.ascii_uppercase +
                                  string.digits, k=n))
 
 
