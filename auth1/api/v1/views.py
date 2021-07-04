@@ -78,8 +78,6 @@ class Login(APIView):
 
 class Register(APIView):
 
-    permission_classes = [AllowAny]
-
     def post(self, request):
         #password1 = request.data.get("password")
         email = request.data.get("username")
