@@ -2,13 +2,6 @@ from rest_framework import serializers
 from content.models import Content, ContentMeta, PostCategory, Comment
 
 
-class ContentSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Content
-        fields = "__all__"
-
-
 class ContentMetaSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -16,10 +9,27 @@ class ContentMetaSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
+        fields = "__all__"
+
+
+class CommentListSerializer(serializers.ModelSerializer):
+    parent = CommentCreateSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+
+class ContentSerializer(serializers.ModelSerializer):
+    content_comment = CommentListSerializer(read_only=True, many=True)
+    content_meta = ContentMetaSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Content
         fields = "__all__"
 
 

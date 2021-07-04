@@ -28,7 +28,8 @@ class PostCategory(TrackableMixin):
 
 class ContentMeta(TrackableMixin):
 
-    post = models.ForeignKey(PostCategory, on_delete=models.CASCADE)
+    post = models.ForeignKey(PostCategory, on_delete=models.CASCADE, related_name="content_meta")
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_meta")
     meta_key = models.CharField(max_length=250)
     meta_content = models.CharField(max_length=250)
 
@@ -37,5 +38,5 @@ class Comment(TrackableMixin):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_comment')
     content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_comment')
     parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
-    status = models.CharField(max_length=250)
+    status_comment = models.CharField(max_length=250)
     body = models.TextField()

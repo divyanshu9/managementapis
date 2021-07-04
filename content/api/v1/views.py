@@ -6,8 +6,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
 
+from django_filters import rest_framework as filters
+
 from content.models import Content, ContentMeta, PostCategory, Comment
-from .serializers import ContentSerializer, ContentMetaSerializer, PostCategorySerializer, CommentSerializer
+from .serializers import ContentSerializer, ContentMetaSerializer, PostCategorySerializer,\
+    CommentCreateSerializer, CommentListSerializer
+from .filters import ContentFilter
 # Create your views here.
 
 
@@ -16,6 +20,7 @@ class ContentListCreateAPIView(generics.ListCreateAPIView):
     Content Create and List Api
     """
     serializer_class = ContentSerializer
+    filter_class = ContentFilter
     queryset = Content.objects.all().order_by("-id")
 
 
@@ -27,11 +32,19 @@ class ContentMetaListCreateAPIView(generics.ListCreateAPIView):
     queryset = ContentMeta.objects.all().order_by("-id")
 
 
-class CommentListCreateAPIView(generics.ListCreateAPIView):
+class CommentCreateAPIView(generics.CreateAPIView):
     """
     Comment Create and List Api
     """
-    serializer_class = CommentSerializer
+    serializer_class = CommentCreateSerializer
+    queryset = Comment.objects.all().order_by("-id")
+
+
+class CommentListAPIView(generics.ListAPIView):
+    """
+    Comment List Api
+    """
+    serializer_class = CommentListSerializer
     queryset = Comment.objects.all().order_by("-id")
 
 
@@ -48,6 +61,7 @@ class ContentRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     Content Retrieve Update and Destroy Api
     """
     serializer_class = ContentSerializer
+    filter_class = ContentFilter
     queryset = Content.objects.all().order_by("-id")
 
 
@@ -63,7 +77,7 @@ class CommentRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
     Comment Retrieve Update and Destroy Api
     """
-    serializer_class = CommentSerializer
+    serializer_class = CommentCreateSerializer
     queryset = Comment.objects.all().order_by("-id")
 
 
