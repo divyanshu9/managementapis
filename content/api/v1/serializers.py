@@ -1,18 +1,32 @@
 from rest_framework import serializers
-from survery.models import Survey, SurveyResponse
+from content.models import Content, ContentMeta, PostCategory, Comment
 
 
-class SurveyResponseSerializer(serializers.ModelSerializer):
+class ContentSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = SurveyResponse
+        model = Content
         fields = "__all__"
 
 
-class SurveySerializer(serializers.ModelSerializer):
+class ContentMetaSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Survey
+        model = ContentMeta
+        fields = "__all__"
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+
+class PostCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PostCategory
         fields = "__all__"
 
 
