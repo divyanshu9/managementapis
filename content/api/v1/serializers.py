@@ -10,14 +10,17 @@ class ContentMetaSerializer(serializers.ModelSerializer):
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
+    author_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Comment
         fields = "__all__"
+        extra_kwargs = {'parent': {'required': False}}
 
 
 class CommentListSerializer(serializers.ModelSerializer):
     parent = CommentCreateSerializer(read_only=True)
+    author_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Comment

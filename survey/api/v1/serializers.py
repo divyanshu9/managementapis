@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from survey.models import Survey, SurveyResponse
+from survey.models import Survey, SurveyResponse, Product
 
 
 class SurveyResponseSerializer(serializers.ModelSerializer):
+    submit_user_name = serializers.ReadOnlyField()
 
     class Meta:
         model = SurveyResponse
@@ -17,3 +18,8 @@ class SurveySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = "__all__"

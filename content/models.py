@@ -44,6 +44,10 @@ class ContentMeta(TrackableMixin):
 class Comment(TrackableMixin):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_comment')
     content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_comment')
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
     status_comment = models.CharField(max_length=250)
     body = models.TextField()
+
+    @property
+    def author_name(self):
+        return self.author.first_name
