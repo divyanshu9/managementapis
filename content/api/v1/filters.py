@@ -8,7 +8,8 @@ class ContentFilter(filters.FilterSet):
     url = filters.CharFilter()
     title = filters.CharFilter()
     body = filters.CharFilter()
+    category = filters.CharFilter()
 
     class Meta:
         model = Content
-        fields = ['url', 'created', 'title', 'body']
+        fields = ['url', 'created', 'title', 'body', 'category']

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from content.models import Content, ContentMeta, PostCategory, Comment
+from content.models import Content, ContentMeta, Comment
 
 
 class ContentMetaSerializer(serializers.ModelSerializer):
@@ -25,18 +25,12 @@ class CommentListSerializer(serializers.ModelSerializer):
 
 
 class ContentSerializer(serializers.ModelSerializer):
+    author_name = serializers.ReadOnlyField()
     content_comment = CommentListSerializer(read_only=True, many=True)
     content_meta = ContentMetaSerializer(read_only=True, many=True)
 
     class Meta:
         model = Content
-        fields = "__all__"
-
-
-class PostCategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = PostCategory
         fields = "__all__"
 
 

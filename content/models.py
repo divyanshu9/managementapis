@@ -6,29 +6,36 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Content(TrackableMixin):
+
+    class Category(models.TextChoices):
+        CAT_1 = 'MW', _('Modern Workplace')
+        CAT_2 = 'CP', _('Customer Portal')
+        CAT_3 = 'BI', _('BI Report')
+        CAT_4 = 'BC', _('Business Consulting')
+
+    class Status(models.TextChoices):
+        FEATURED = 'F', _('Featured')
+        ORDINARY = 'O', _('Ordinary')
+
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=250)
+    status = models.CharField(
+        _('status'), max_length=1, choices=Status.choices
+    )
     type = models.CharField(max_length=250)
     url = models.URLField()
     title = models.CharField(max_length=250)
     body = models.TextField()
-
-
-class PostCategory(TrackableMixin):
-
-    class Category(models.TextChoices):
-        CAT_1 = 'C1', _('Category one')
-        CAT_2 = 'C2', _('Category two')
-
-    content = models.ForeignKey(Content, on_delete=models.CASCADE)
     category = models.CharField(
         _('category'), max_length=2, choices=Category.choices
     )
 
+    @property
+    def author_name(self):
+        return self.author.first_name
+
 
 class ContentMeta(TrackableMixin):
 
-    post = models.ForeignKey(PostCategory, on_delete=models.CASCADE, related_name="content_meta")
     content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_meta")
     meta_key = models.CharField(max_length=250)
     meta_content = models.CharField(max_length=250)

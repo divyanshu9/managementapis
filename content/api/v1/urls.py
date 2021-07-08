@@ -10,6 +10,4 @@ urlpatterns = [
     path(r'comment/<int:pk>/', views.CommentRetrieveUpdateAPIView.as_view()),
     path(r'list_comment/', views.CommentListAPIView.as_view()),
     path(r'comment/', views.CommentCreateAPIView.as_view()),
-    path(r'post/<int:pk>/', views.PostCategoryRetrieveUpdateAPIView.as_view()),
-    path(r'post/', views.PostCategoryListCreateAPIView.as_view()),
 ]

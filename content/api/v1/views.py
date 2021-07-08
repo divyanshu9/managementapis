@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 
 from django_filters import rest_framework as filters
 
-from content.models import Content, ContentMeta, PostCategory, Comment
-from .serializers import ContentSerializer, ContentMetaSerializer, PostCategorySerializer,\
+from content.models import Content, ContentMeta, Comment
+from .serializers import ContentSerializer, ContentMetaSerializer,\
     CommentCreateSerializer, CommentListSerializer
 from .filters import ContentFilter
 # Create your views here.
@@ -21,7 +21,9 @@ class ContentListCreateAPIView(generics.ListCreateAPIView):
     """
     serializer_class = ContentSerializer
     filter_class = ContentFilter
-    queryset = Content.objects.all().order_by("-id")
+    ordering_fields = ('id', 'category', 'title', 'url', ('author', 'author__userdetails__first_name'))
+    ordering = ['-id']
+    queryset = Content.objects.all()
 
 
 class ContentMetaListCreateAPIView(generics.ListCreateAPIView):
@@ -48,14 +50,6 @@ class CommentListAPIView(generics.ListAPIView):
     queryset = Comment.objects.all().order_by("-id")
 
 
-class PostCategoryListCreateAPIView(generics.ListCreateAPIView):
-    """
-    PostCategory Create and List Api
-    """
-    serializer_class = PostCategorySerializer
-    queryset = PostCategory.objects.all().order_by("-id")
-
-
 class ContentRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
     Content Retrieve Update and Destroy Api
@@ -79,11 +73,3 @@ class CommentRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = CommentCreateSerializer
     queryset = Comment.objects.all().order_by("-id")
-
-
-class PostCategoryRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    PostCategory Retrieve Update and Destroy Api
-    """
-    serializer_class = PostCategorySerializer
-    queryset = PostCategory.objects.all().order_by("-id")

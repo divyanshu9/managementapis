@@ -11,5 +11,6 @@ class UserDetail(TrackableMixin):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='userdetails')
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
+    location = models.CharField(max_length=250, blank=True)
     status = models.BooleanField(default=False)
     user_role = models.ForeignKey(UserRole, on_delete=models.CASCADE)

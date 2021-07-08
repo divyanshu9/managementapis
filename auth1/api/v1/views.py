@@ -84,6 +84,7 @@ class Register(APIView):
         user_role = request.data.get("user_role")
         user_type = request.data.get("type")
         first_name = request.data.get("first_name")
+        location = request.data.get("location")
         password1 = random_with_n_aplha(6)
         if email:
             user_exists = User.objects.filter(username=email).exists()
