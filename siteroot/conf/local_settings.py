@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'auth1',
     'project',
     'content',
-    'survey'
+    'survey',
+    'django.contrib.admindocs'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
