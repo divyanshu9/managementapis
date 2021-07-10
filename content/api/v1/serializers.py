@@ -19,12 +19,17 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 
 class CommentListSerializer(serializers.ModelSerializer):
-    parent = CommentCreateSerializer(read_only=True)
+    #parent = CommentCreateSerializer(read_only=True)
+    replies = serializers.SerializerMethodField()
     author_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Comment
         fields = "__all__"
+
+    def get_replies(self, obj):
+        s = CommentListSerializer(Comment.objects.filter(parent=obj), many=True)
+        return s.data
 
 
 class ContentSerializer(serializers.ModelSerializer):
