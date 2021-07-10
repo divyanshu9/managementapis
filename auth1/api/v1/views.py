@@ -103,7 +103,7 @@ class Register(APIView):
                 user = User.objects.create_user(username=email, password=password1, first_name=first_name)
                 UserDetail.objects.create(user=user, user_role_id=user_role)
                 if user_type == "M":
-                    survey = SurveyResponseSerializer(data=request.data.get("survey"))
+                    survey = SurveyResponseSerializer(data=request.data.get("survey"), many=True)
                     case = CaseSerializer(data=request.data.get("case"))
                     if survey.is_valid():
                         survey_obj = survey.save(submit_user=user)
