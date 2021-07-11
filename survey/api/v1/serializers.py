@@ -4,6 +4,8 @@ from survey.models import Survey, SurveyResponse, Product
 
 class SurveyResponseSerializer(serializers.ModelSerializer):
     submit_user_name = serializers.ReadOnlyField()
+    product_name = serializers.ReadOnlyField()
+    category_name = serializers.ReadOnlyField()
 
     class Meta:
         model = SurveyResponse

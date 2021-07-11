@@ -82,7 +82,7 @@ class Register(APIView):
         #password1 = request.data.get("password")
         email = request.data.get("username")
         user_role = request.data.get("user_role")
-        user_type = request.data.get("type")
+        user_type = request.data.get("user_type")
         first_name = request.data.get("first_name")
         location = request.data.get("location")
         password1 = random_with_n_aplha(6)
@@ -92,7 +92,6 @@ class Register(APIView):
             if user_exists:
                 user = User.objects.get(username=email)
                 if user.is_active:
-                    print("active")
                     return Response({"message": "User with this email already exists", "flag": False},
                                     status=status.HTTP_400_BAD_REQUEST)
                 else:
@@ -101,14 +100,16 @@ class Register(APIView):
                     user.save()
             else:
                 user = User.objects.create_user(username=email, password=password1, first_name=first_name)
-                UserDetail.objects.create(user=user, user_role_id=user_role)
+                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role)
                 if user_type == "M":
                     survey = SurveyResponseSerializer(data=request.data.get("survey"), many=True)
                     case = CaseSerializer(data=request.data.get("case"))
                     if survey.is_valid():
-                        survey_obj = survey.save(submit_user=user)
+                        print("is valid survey")
+                        survey_obj = survey.save(submit_user=user_detail)
                     if case.is_valid():
-                        client_obj = case.save(client_user=user)
+                        print("is valid case")
+                        case_obj = case.save(client_user=user_detail)
             current_site = get_current_site(request)
             mail_subject = 'Activate your account.'
             message = render_to_string('acc_active_email.html', {

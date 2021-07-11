@@ -31,4 +31,12 @@ class SurveyResponse(TrackableMixin):
 
     @property
     def submit_user_name(self):
-        return self.submit_user.first_name
+        return self.submit_user.user.first_name
+
+    @property
+    def product_name(self):
+        return self.product.name
+
+    @property
+    def category_name(self):
+        return self.product.category.name

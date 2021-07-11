@@ -9,8 +9,7 @@ class SurveyListAPIView(generics.ListAPIView):
     Survey List Api
     """
     serializer_class = SurveySerializer
-    filter_class = SurveyResponseFilter
-    queryset = SurveyResponse.objects.all().order_by("-id")
+    queryset = Survey.objects.all().order_by("-id")
 
 
 class SurveyResponseListAPIView(generics.ListAPIView):
@@ -18,7 +17,8 @@ class SurveyResponseListAPIView(generics.ListAPIView):
     Survey Response List Api
     """
     serializer_class = SurveyResponseSerializer
-    queryset = Survey.objects.all().order_by("-id")
+    filter_class = SurveyResponseFilter
+    queryset = SurveyResponse.objects.all().order_by("-id")
 
 
 class ProductListAPIView(generics.ListAPIView):
