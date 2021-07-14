@@ -22,11 +22,11 @@ class Content(TrackableMixin):
         _('status'), max_length=1, choices=Status.choices
     )
     type = models.CharField(max_length=250)
-    url = models.URLField()
+    url = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
     body = models.TextField()
     category = models.CharField(
-        _('category'), max_length=2, choices=Category.choices
+        _('category'), max_length=2, choices=Category.choices, null=True
     )
 
     @property
