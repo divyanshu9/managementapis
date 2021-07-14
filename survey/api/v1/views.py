@@ -1,6 +1,9 @@
 from rest_framework import status, generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from survey.models import Survey, Product, SurveyResponse
-from .serializers import SurveySerializer, ProductSerializer, SurveyResponseSerializer
+from .serializers import SurveySerializer, ProductSerializer, SurveyResponseSerializer, \
+    SurveyResponseCreateSerializer, SurveyResponseReadSerializer
 from .filters import SurveyResponseFilter
 
 
@@ -16,8 +19,13 @@ class SurveyResponseListAPIView(generics.ListAPIView):
     """
     Survey Response List Api
     """
-    serializer_class = SurveyResponseSerializer
+    serializer_class = SurveyResponseReadSerializer
     filter_class = SurveyResponseFilter
+    queryset = SurveyResponse.objects.all().order_by("-id")
+
+
+class SurveyResponseCreateAPIView(generics.CreateAPIView):
+    serializer_class = SurveyResponseCreateSerializer
     queryset = SurveyResponse.objects.all().order_by("-id")
 
 

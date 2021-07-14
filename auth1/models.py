@@ -14,3 +14,7 @@ class UserDetail(TrackableMixin):
     location = models.CharField(max_length=250, blank=True)
     status = models.BooleanField(default=False)
     user_role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
+    
+    @property
+    def name(self):
+        return "{} {}".format(self.first_name, self.last_name)

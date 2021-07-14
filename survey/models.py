@@ -26,8 +26,6 @@ class SurveyResponse(TrackableMixin):
     submit_user = models.ForeignKey(UserDetail, on_delete=models.CASCADE, related_name='survey_responses')
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='survey_responses')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='survey_responses')
-    question = models.CharField(max_length=250)
-    response = models.CharField(max_length=250)
 
     @property
     def submit_user_name(self):
@@ -40,3 +38,9 @@ class SurveyResponse(TrackableMixin):
     @property
     def category_name(self):
         return self.product.category.name
+
+
+class Response(TrackableMixin):
+    survey_response = models.ForeignKey(SurveyResponse, on_delete=models.CASCADE, related_name='responses')
+    question = models.CharField(max_length=250)
+    response = models.CharField(max_length=250)
