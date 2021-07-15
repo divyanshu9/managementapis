@@ -23,6 +23,7 @@ class Content(TrackableMixin):
     )
     type = models.CharField(max_length=250)
     url = models.CharField(max_length=250)
+    image_url = models.CharField(max_length=250, blank=True, null=True)
     title = models.CharField(max_length=250)
     body = models.TextField()
     category = models.CharField(
