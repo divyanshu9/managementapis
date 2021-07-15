@@ -4,5 +4,6 @@ __pycache__
 myvenv
 venv
 db.sqlite3
+projectmanagement
 .DS_Store
 .env
