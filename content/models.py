@@ -26,7 +26,7 @@ class Content(TrackableMixin):
     title = models.CharField(max_length=250)
     body = models.TextField()
     category = models.CharField(
-        _('category'), max_length=2, choices=Category.choices, null=True
+        _('category'), max_length=2, choices=Category.choices, null=True, blank=True
     )
 
     @property
