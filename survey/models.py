@@ -5,7 +5,8 @@ from auth1.models import UserDetail
 
 class Survey(TrackableMixin):
     title = models.CharField(max_length=250)
-    content = models.CharField(max_length=250)
+    intro = models.CharField(max_length=250)
+    content = models.TextField()
 
 
 class ProductCategory(TrackableMixin):
