@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from survey.models import Survey, SurveyResponse, Product, Response
+from survey.models import Survey, SurveyResponse, Product, Response, ProductCategory
 from auth1.models import UserDetail
 
 
@@ -83,6 +83,15 @@ class SurveySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
+    category_name = serializers.ReadOnlyField()
+
     class Meta:
         model = Product
+        fields = "__all__"
+
+
+class ProductCatSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductCategory
         fields = "__all__"
