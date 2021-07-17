@@ -15,6 +15,15 @@ class SurveyListAPIView(generics.ListAPIView):
     queryset = Survey.objects.all().order_by("-id")
 
 
+class SurveyRetrieveAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Survey Retrieve Api
+    """
+    serializer_class = SurveySerializer
+    lookup_field = "id"
+    queryset = Survey.objects.all().order_by("-id")
+
+
 class SurveyResponseListAPIView(generics.ListAPIView):
     """
     Survey Response List Api
