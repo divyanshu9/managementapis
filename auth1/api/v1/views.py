@@ -85,10 +85,9 @@ class Register(APIView):
         #password1 = request.data.get("password")
         email = request.data.get("username")
         user_role = request.data.get("user_role")
-        user_type = request.data.get("user_type")
         first_name = request.data.get("first_name")
         last_name = request.data.get("last_name")
-        location = request.data.get("location")
+        location = request.data.get("location") or ""
         password1 = random_with_n_aplha(6)
         if email:
             user_exists = User.objects.filter(username=email).exists()
@@ -106,8 +105,8 @@ class Register(APIView):
                 user = User.objects.create_user(username=email, password=password1, first_name=first_name,
                                                 last_name=last_name)
                 user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, first_name=first_name,
-                                                        last_name=last_name)
-                if user_type == "M":
+                                                        last_name=last_name, location=location)
+                if int(user_role) == 1:
                     survey = SurveyResponseSerializer(data=request.data.get("survey"))
                     responses = ResponseSerializer(data=request.data.get("survey")["responses"], many=True)
                     case = CaseSerializer(data=request.data.get("case"))

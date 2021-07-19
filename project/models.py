@@ -1,14 +1,16 @@
 from django.db import models
 from common.mixins import TrackableMixin
 from auth1.models import UserDetail
+from survey.models import ProductCategory, Product
 
 
 class Case(TrackableMixin):
     client_user = models.ForeignKey(UserDetail, on_delete=models.CASCADE, related_name='case')
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     case_manager_user = models.ForeignKey(UserDetail, on_delete=models.CASCADE, related_name='case_manager')
     title = models.CharField(max_length=250)
     description = models.CharField(max_length=250)
-    category = models.CharField(max_length=250)
     status = models.CharField(max_length=250)
 
 
