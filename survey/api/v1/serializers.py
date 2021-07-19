@@ -37,7 +37,7 @@ class ResponseSerializer(serializers.ModelSerializer):
 class SurveyResponseSerializer(serializers.ModelSerializer):
     submit_user_data = UserIDNameSerializer(read_only=True)
     product_data = ProductIDNameSerializer(read_only=True)
-    responses = ResponseSerializer(many=True)
+    responses = ResponseSerializer(many=True, read_only=True)
 
     class Meta:
         model = SurveyResponse

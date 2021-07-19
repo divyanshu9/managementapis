@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate
 from django.shortcuts import render
+from django.db import transaction
 from rest_framework import status, generics
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -15,7 +17,7 @@ from django.http import HttpResponse
 
 from auth1.models import UserDetail, UserRole
 from project.api.v1.serializers import CaseSerializer
-from survey.api.v1.serializers import SurveyResponseSerializer
+from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
 from .serializers import UserRoleSerializer
 #from .token import account_activation_token
@@ -78,12 +80,14 @@ class Login(APIView):
 
 class Register(APIView):
 
+    @transaction.atomic
     def post(self, request):
         #password1 = request.data.get("password")
         email = request.data.get("username")
         user_role = request.data.get("user_role")
         user_type = request.data.get("user_type")
         first_name = request.data.get("first_name")
+        last_name = request.data.get("last_name")
         location = request.data.get("location")
         password1 = random_with_n_aplha(6)
         if email:
@@ -99,17 +103,25 @@ class Register(APIView):
                     user.set_password(password1)
                     user.save()
             else:
-                user = User.objects.create_user(username=email, password=password1, first_name=first_name)
-                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role)
+                user = User.objects.create_user(username=email, password=password1, first_name=first_name,
+                                                last_name=last_name)
+                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, first_name=first_name,
+                                                        last_name=last_name)
                 if user_type == "M":
-                    survey = SurveyResponseSerializer(data=request.data.get("survey"), many=True)
+                    survey = SurveyResponseSerializer(data=request.data.get("survey"))
+                    responses = ResponseSerializer(data=request.data.get("survey")["responses"], many=True)
                     case = CaseSerializer(data=request.data.get("case"))
-                    if survey.is_valid():
+                    if survey.is_valid() and responses.is_valid():
                         print("is valid survey")
-                        survey_obj = survey.save(submit_user=user_detail)
+                        survey_response_obj = survey.save(submit_user=user_detail)
+                        responses = responses.save(survey_response=survey_response_obj)
+                    else:
+                        raise ValidationError(survey.errors)
                     if case.is_valid():
                         print("is valid case")
                         case_obj = case.save(client_user=user_detail)
+                    else:
+                        raise ValidationError(case.errors)
             current_site = get_current_site(request)
             mail_subject = 'Activate your account.'
             message = render_to_string('acc_active_email.html', {
