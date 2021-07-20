@@ -157,10 +157,10 @@ STATICFILES_DIRS = (
 # )
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'mishradivyanshu05@gmail.com'
-EMAIL_HOST_PASSWORD = '5october2000'
-EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'wl@cmundp.de'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_PORT = 465
 
 try:
     from .local_settings import *

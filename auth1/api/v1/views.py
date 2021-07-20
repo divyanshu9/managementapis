@@ -10,10 +10,13 @@ from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.http import HttpResponse
+
+from sendgrid.helpers.mail import Mail
+from sendgrid import SendGridAPIClient
 
 from auth1.models import UserDetail, UserRole
 from project.api.v1.serializers import CaseSerializer
@@ -21,6 +24,9 @@ from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializ
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
 from .serializers import UserRoleSerializer
 #from .token import account_activation_token
+
+
+sg = SendGridAPIClient("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")
 
 
 class ChangePassword(APIView):
@@ -130,8 +136,14 @@ class Register(APIView):
                 'token': password1
                 #'token': account_activation_token.make_token(user),
             })
-            email = EmailMessage(mail_subject, message, to=[email])
-            email.send(fail_silently=False)
+            # email = EmailMessage(mail_subject, message, from_email="wl@cmundp.de", to=[email])
+            # email.send(fail_silently=False)
+            message = Mail(from_email="wl@cmundp.de", to_emails=email,
+                           subject='Your one time password',
+                           html_content='<strong>Password: </strong>{}'.format(password1))
+            # send_mail('One Time Password', 'Password', 'wl@cmundp.de', [email],
+            #           fail_silently=False
+            sg.send(message)
             return Response({"message": "Password sent on email"},
                             status=status.HTTP_201_CREATED)
         else:
