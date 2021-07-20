@@ -13,3 +13,4 @@ whitenoise
 djangorestframework-api-key
 docutils
 psycopg2
+sendgrid
