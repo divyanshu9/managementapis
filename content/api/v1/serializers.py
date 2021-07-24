@@ -34,11 +34,16 @@ class CommentListSerializer(serializers.ModelSerializer):
 
 class ContentSerializer(serializers.ModelSerializer):
     author_name = serializers.ReadOnlyField()
-    content_comment = CommentListSerializer(read_only=True, many=True)
+    #content_comment = CommentListSerializer(read_only=True, many=True)
+    content_comment = serializers.SerializerMethodField()
     content_meta = ContentMetaSerializer(read_only=True, many=True)
 
     class Meta:
         model = Content
         fields = "__all__"
+
+    def get_content_comment(self, obj):
+        s = CommentListSerializer(Comment.objects.filter(parent__isnull=True), many=True)
+        return s.data
 
 
