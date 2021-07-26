@@ -6,7 +6,7 @@ from content.models import Content
 class ContentFilter(filters.FilterSet):
     created = filters.DateFromToRangeFilter()
     url = filters.CharFilter()
-    title = filters.CharFilter()
+    title = filters.CharFilter(lookup_expr='icontains')
     body = filters.CharFilter()
     category = filters.CharFilter()
     type = filters.CharFilter()
