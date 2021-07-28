@@ -26,7 +26,7 @@ from .serializers import UserRoleSerializer
 #from .token import account_activation_token
 
 
-sg = SendGridAPIClient("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")
+sg = SendGridAPIClient("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")
 
 
 class ChangePassword(APIView):
