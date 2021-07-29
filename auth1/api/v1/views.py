@@ -22,7 +22,7 @@ from auth1.models import UserDetail, UserRole
 from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
-from .serializers import UserRoleSerializer
+from .serializers import UserRoleSerializer, UserDetailSerializer
 #from .token import account_activation_token
 
 
@@ -72,7 +72,7 @@ class Login(APIView):
                 if user_obj.userdetails.status:
                     user_token = get_tokens_for_user(user_obj)
                     user_exists = UserDetail.objects.filter(user=user_obj).exists()
-                    return Response({"message": "User Logged in", "token": user_token["access"], "username": user_obj.username, "flag": user_exists}, status=status.HTTP_200_OK)
+                    return Response({"message": "User Logged in", "id": user_obj.userdetails.id, "token": user_token["access"], "username": user_obj.username, "flag": user_exists}, status=status.HTTP_200_OK)
                 else:
                     return Response({"message": "Please change your password.", "flag": False},
                                     status=status.HTTP_401_UNAUTHORIZED)
@@ -174,3 +174,12 @@ class UserRolesListAPIView(generics.ListAPIView):
     """
     serializer_class = UserRoleSerializer
     queryset = UserRole.objects.all().order_by("-id")
+
+
+class UserRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    User Retrieve Update and Destroy Api
+    """
+    serializer_class = UserDetailSerializer
+    lookup_field = "id"
+    queryset = UserDetail.objects.all().order_by("-id")

@@ -4,7 +4,7 @@ from content.models import Content
 
 
 class ContentFilter(filters.FilterSet):
-    created = filters.DateFromToRangeFilter()
+    created_at = filters.DateFromToRangeFilter()
     url = filters.CharFilter()
     title = filters.CharFilter(lookup_expr='icontains')
     body = filters.CharFilter()
@@ -13,4 +13,4 @@ class ContentFilter(filters.FilterSet):
 
     class Meta:
         model = Content
-        fields = ['url', 'created', 'title', 'body', 'category', 'type']
+        fields = ['url', 'created_at', 'title', 'body', 'category', 'type']

@@ -43,7 +43,7 @@ class ContentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_content_comment(self, obj):
-        s = CommentListSerializer(Comment.objects.filter(parent__isnull=True), many=True)
+        s = CommentListSerializer(Comment.objects.filter(parent__isnull=True, content=obj), many=True)
         return s.data
 
 

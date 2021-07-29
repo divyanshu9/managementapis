@@ -55,7 +55,7 @@ class ContentRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     Content Retrieve Update and Destroy Api
     """
     serializer_class = ContentSerializer
-    filter_class = ContentFilter
+    lookup_field = "id"
     queryset = Content.objects.all().order_by("-id")
 
 
@@ -64,6 +64,7 @@ class ContentMetaRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     Content Meta Retrieve Update and Destroy Api
     """
     serializer_class = ContentMetaSerializer
+    lookup_field = "id"
     queryset = ContentMeta.objects.all().order_by("-id")
 
 
@@ -72,4 +73,5 @@ class CommentRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     Comment Retrieve Update and Destroy Api
     """
     serializer_class = CommentCreateSerializer
+    lookup_field = "id"
     queryset = Comment.objects.all().order_by("-id")
