@@ -35,11 +35,24 @@ class ChangePassword(APIView):
         email = request.data.get("username")
         old_password = request.data.get("old_password")
         new_password = request.data.get("new_password")
+        reset_password = random_with_n_aplha(6)
         try:
             user_exists = User.objects.filter(username=email)
             if not user_exists.exists():
                 return Response({"message": "User with this details not exists.", "flag": False},
                                 status=status.HTTP_400_BAD_REQUEST)
+            user_obj = user_exists.last()
+            if not old_password:
+                user_obj.set_password(reset_password)
+                user_obj.save()
+                message = Mail(from_email="wl@cmundp.de", to_emails=email,
+                               subject='Password Reset',
+                               html_content='<strong>Password: </strong>{}'.format(reset_password))
+                # send_mail('One Time Password', 'Password', 'wl@cmundp.de', [email],
+                #           fail_silently=False
+                sg.send(message)
+                return Response({"message": "Password Sent on email", "flag": True},
+                                status=status.HTTP_200_OK)
             user_obj = authenticate(username=user_exists[0].username, password=old_password)
             if user_obj:
                 user_obj.set_password(new_password)
