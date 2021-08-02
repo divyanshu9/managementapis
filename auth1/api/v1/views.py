@@ -193,5 +193,5 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     User Retrieve Update and Destroy Api
     """
     serializer_class = UserDetailSerializer
-    lookup_field = "id"
+    lookup_field = "user__id"
     queryset = UserDetail.objects.all().order_by("-id")
