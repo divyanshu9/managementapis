@@ -85,7 +85,7 @@ class Login(APIView):
                 if user_obj.userdetails.status:
                     user_token = get_tokens_for_user(user_obj)
                     user_exists = UserDetail.objects.filter(user=user_obj).exists()
-                    return Response({"message": "User Logged in", "id": user_obj.userdetails.id, "token": user_token["access"], "username": user_obj.username, "flag": user_exists}, status=status.HTTP_200_OK)
+                    return Response({"message": "User Logged in", "id": user_obj.id, "token": user_token["access"], "username": user_obj.username, "flag": user_exists}, status=status.HTTP_200_OK)
                 else:
                     return Response({"message": "Please change your password.", "flag": False},
                                     status=status.HTTP_401_UNAUTHORIZED)
