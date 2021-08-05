@@ -13,6 +13,14 @@ class Case(TrackableMixin):
     description = models.CharField(max_length=250)
     status = models.CharField(max_length=250)
 
+    @property
+    def client_user_name(self):
+        return "{} {}".format(self.client_user.first_name, self.client_user.last_name)
+
+    @property
+    def case_manager_user_name(self):
+        return "{} {}".format(self.case_manager_user.first_name, self.case_manager_user.last_name)
+
 
 class Quote(TrackableMixin):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='quote')
@@ -21,6 +29,14 @@ class Quote(TrackableMixin):
     price = models.IntegerField()
     status = models.CharField(max_length=250)
     comment = models.CharField(max_length=250)
+
+    @property
+    def submit_user_name(self):
+        return "{} {}".format(self.submit_user.first_name, self.submit_user.last_name)
+
+    @property
+    def recipient_user_name(self):
+        return "{} {}".format(self.recipient_user.first_name, self.recipient_user.last_name)
 
 
 class Invoice(TrackableMixin):
@@ -31,11 +47,23 @@ class Invoice(TrackableMixin):
     status = models.CharField(max_length=250)
     comment = models.CharField(max_length=250)
 
+    @property
+    def submit_user_name(self):
+        return "{} {}".format(self.submit_user.first_name, self.submit_user.last_name)
+
+    @property
+    def recipient_user_name(self):
+        return "{} {}".format(self.recipient_user.first_name, self.recipient_user.last_name)
+
 
 class Message(TrackableMixin):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='message')
     submit_user = models.ForeignKey(UserDetail, on_delete=models.CASCADE, related_name='message')
     message = models.TextField()
+
+    @property
+    def submit_user_name(self):
+        return "{} {}".format(self.submit_user.first_name, self.submit_user.last_name)
 
 
 class Attachment(TrackableMixin):

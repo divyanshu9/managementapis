@@ -33,7 +33,7 @@ class Content(TrackableMixin):
 
     @property
     def author_name(self):
-        return self.author.first_name
+        return "{} {}".format(self.author.first_name, self.author.last_name)
 
 
 class ContentMeta(TrackableMixin):

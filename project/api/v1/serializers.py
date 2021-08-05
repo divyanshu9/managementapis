@@ -3,6 +3,8 @@ from project.models import Case, Quote, Message, Invoice, Attachment
 
 
 class CaseSerializer(serializers.ModelSerializer):
+    client_user_name = serializers.ReadOnlyField()
+    case_manager_user_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Case
@@ -11,6 +13,8 @@ class CaseSerializer(serializers.ModelSerializer):
 
 
 class QuoteSerializer(serializers.ModelSerializer):
+    submit_user_name = serializers.ReadOnlyField()
+    recipient_user_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Quote
@@ -18,6 +22,7 @@ class QuoteSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    submit_user_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Message
@@ -25,6 +30,8 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
+    submit_user_name = serializers.ReadOnlyField()
+    recipient_user_name = serializers.ReadOnlyField()
 
     class Meta:
         model = Invoice

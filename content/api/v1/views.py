@@ -21,7 +21,7 @@ class ContentListCreateAPIView(generics.ListCreateAPIView):
     """
     serializer_class = ContentSerializer
     filter_class = ContentFilter
-    ordering_fields = ('id', 'category', 'title', 'url', ('author', 'author__userdetails__first_name'), 'created_at')
+    ordering_fields = ('id', 'category', 'title', 'url', ('author', 'author__first_name'), 'created_at')
     ordering = ['-id']
     queryset = Content.objects.all()
 

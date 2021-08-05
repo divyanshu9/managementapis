@@ -11,7 +11,7 @@ from django_filters import rest_framework as filters
 from project.models import Case, Quote, Invoice, Message, Attachment
 from .serializers import CaseSerializer, QuoteSerializer,\
     InvoiceSerializer, MessageSerializer, AttachmentSerializer
-from .filters import CaseFilter
+from .filters import CaseFilter, QuoteFilter, InvoiceFilter, MessageFilter, AttachmentFilter
 # Create your views here.
 
 
@@ -33,10 +33,10 @@ class QuoteListCreateAPIView(generics.ListCreateAPIView):
     Quote Create and List Api
     """
     serializer_class = QuoteSerializer
-    #filter_class = CaseFilter
-    # ordering_fields = ('id', 'category', 'title',
-    #                    ('client', 'client_user__userdetails__first_name'),
-    #                    ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
+    filter_class = QuoteFilter
+    ordering_fields = ('id', 'case', 'price',
+                       ('recipient_user', 'recipient_user__userdetails__first_name'),
+                       ('submit_user', 'submit_user__userdetails__first_name'), 'created_at')
     ordering = ['-id']
     queryset = Quote.objects.all()
 
@@ -46,10 +46,10 @@ class InvoiceListCreateAPIView(generics.ListCreateAPIView):
     Invoice Create and List Api
     """
     serializer_class = InvoiceSerializer
-    filter_class = CaseFilter
-    ordering_fields = ('id', 'category', 'title',
-                       ('client', 'client_user__userdetails__first_name'),
-                       ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
+    filter_class = InvoiceFilter
+    ordering_fields = ('id', 'case', 'price',
+                       ('recipient_user', 'recipient_user__userdetails__first_name'),
+                       ('submit_user', 'submit_user__userdetails__first_name'), 'created_at')
     ordering = ['-id']
     queryset = Invoice.objects.all()
 
@@ -59,10 +59,10 @@ class MessageListCreateAPIView(generics.ListCreateAPIView):
     Message Create and List Api
     """
     serializer_class = MessageSerializer
-    filter_class = CaseFilter
-    ordering_fields = ('id', 'category', 'title',
-                       ('client', 'client_user__userdetails__first_name'),
-                       ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
+    filter_class = MessageFilter
+    ordering_fields = ('id', 'case',
+                       ('submit_user', 'submit_user__first_name'),
+                       'created_at')
     ordering = ['-id']
     queryset = Message.objects.all()
 
@@ -72,10 +72,9 @@ class AttachmentListCreateAPIView(generics.ListCreateAPIView):
     Attachment Create and List Api
     """
     serializer_class = AttachmentSerializer
-    filter_class = CaseFilter
-    ordering_fields = ('id', 'category', 'title',
-                       ('client', 'client_user__userdetails__first_name'),
-                       ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
+    filter_class = AttachmentFilter
+    ordering_fields = ('id', 'message', 'quote', 'url',
+                       'created_at')
     ordering = ['-id']
     queryset = Attachment.objects.all()
 

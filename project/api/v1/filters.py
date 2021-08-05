@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from project.models import Case
+from project.models import Case, Quote, Invoice, Message, Attachment
 
 
 class CaseFilter(filters.FilterSet):
@@ -15,3 +15,53 @@ class CaseFilter(filters.FilterSet):
     class Meta:
         model = Case
         fields = ['title', 'created_at', 'status', 'product', 'category']
+
+
+class QuoteFilter(filters.FilterSet):
+    created_at = filters.DateFromToRangeFilter()
+    comment = filters.CharFilter(lookup_expr='icontains')
+    status = filters.CharFilter()
+    price = filters.NumberFilter()
+    recipient_user = filters.NumberFilter()
+    submit_user = filters.NumberFilter()
+    case = filters.NumberFilter()
+
+    class Meta:
+        model = Quote
+        fields = ['case', 'comment', 'created_at', 'status', 'price', 'recipient_user', 'submit_user']
+
+
+class InvoiceFilter(filters.FilterSet):
+    created_at = filters.DateFromToRangeFilter()
+    comment = filters.CharFilter(lookup_expr='icontains')
+    status = filters.CharFilter()
+    price = filters.NumberFilter()
+    recipient_user = filters.NumberFilter()
+    submit_user = filters.NumberFilter()
+    case = filters.NumberFilter()
+
+    class Meta:
+        model = Invoice
+        fields = ['case', 'comment', 'created_at', 'status', 'price', 'recipient_user', 'submit_user']
+
+
+class MessageFilter(filters.FilterSet):
+    created_at = filters.DateFromToRangeFilter()
+    submit_user = filters.NumberFilter()
+    case = filters.NumberFilter()
+
+    class Meta:
+        model = Message
+        fields = ['case', 'created_at', 'submit_user']
+
+
+class AttachmentFilter(filters.FilterSet):
+    created_at = filters.DateFromToRangeFilter()
+    message = filters.NumberFilter()
+    quote = filters.NumberFilter()
+    invoice = filters.NumberFilter()
+    url = filters.CharFilter()
+
+    class Meta:
+        model = Attachment
+        fields = ['message', 'created_at', 'quote', 'invoice', 'url']
