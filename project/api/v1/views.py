@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 from django_filters import rest_framework as filters
 
-from project.models import Case, Quote, Invoice, Message, Attachement
+from project.models import Case, Quote, Invoice, Message, Attachment
 from .serializers import CaseSerializer, QuoteSerializer,\
     InvoiceSerializer, MessageSerializer, AttachmentSerializer
 from .filters import CaseFilter
@@ -33,10 +33,10 @@ class QuoteListCreateAPIView(generics.ListCreateAPIView):
     Quote Create and List Api
     """
     serializer_class = QuoteSerializer
-    filter_class = CaseFilter
-    ordering_fields = ('id', 'category', 'title',
-                       ('client', 'client_user__userdetails__first_name'),
-                       ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
+    #filter_class = CaseFilter
+    # ordering_fields = ('id', 'category', 'title',
+    #                    ('client', 'client_user__userdetails__first_name'),
+    #                    ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
     ordering = ['-id']
     queryset = Quote.objects.all()
 
@@ -77,7 +77,7 @@ class AttachmentListCreateAPIView(generics.ListCreateAPIView):
                        ('client', 'client_user__userdetails__first_name'),
                        ('case_manager', 'case_manager_user__userdetails__first_name'), 'created_at')
     ordering = ['-id']
-    queryset = Attachement.objects.all()
+    queryset = Attachment.objects.all()
 
 
 class CaseRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
