@@ -1,6 +1,6 @@
 from django.db import models
 from common.mixins import TrackableMixin
-from auth1.models import UserDetail
+from auth1.models import UserDetail, User
 
 
 class Survey(TrackableMixin):
@@ -24,13 +24,13 @@ class Product(TrackableMixin):
 
 
 class SurveyResponse(TrackableMixin):
-    submit_user = models.ForeignKey(UserDetail, on_delete=models.CASCADE, related_name='survey_responses')
+    submit_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='survey_responses')
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='survey_responses')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='survey_responses')
 
     @property
     def submit_user_name(self):
-        return self.submit_user.user.first_name
+        return self.submit_user.first_name
 
     @property
     def product_name(self):
