@@ -24,6 +24,7 @@ class Case(TrackableMixin):
 
 class Quote(TrackableMixin):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='quote')
+    title = models.CharField(max_length=250)
     recipient_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quote_user')
     submit_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quote_sumbit_user')
     price = models.IntegerField()

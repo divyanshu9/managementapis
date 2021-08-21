@@ -10,7 +10,8 @@ from django_filters import rest_framework as filters
 
 from project.models import Case, Quote, Invoice, Message, Attachment
 from .serializers import CaseSerializer, QuoteSerializer,\
-    InvoiceSerializer, MessageSerializer, AttachmentSerializer
+    InvoiceSerializer, MessageSerializer, AttachmentSerializer,\
+    InvoiceSerializerWithCase, QuoteSerializerWithCase
 from .filters import CaseFilter, QuoteFilter, InvoiceFilter, MessageFilter, AttachmentFilter
 # Create your views here.
 
@@ -32,7 +33,7 @@ class QuoteListCreateAPIView(generics.ListCreateAPIView):
     """
     Quote Create and List Api
     """
-    serializer_class = QuoteSerializer
+    serializer_class = QuoteSerializerWithCase
     filter_class = QuoteFilter
     ordering_fields = ('id', 'case', 'price',
                        ('recipient_user', 'recipient_user__userdetails__first_name'),
@@ -45,7 +46,7 @@ class InvoiceListCreateAPIView(generics.ListCreateAPIView):
     """
     Invoice Create and List Api
     """
-    serializer_class = InvoiceSerializer
+    serializer_class = InvoiceSerializerWithCase
     filter_class = InvoiceFilter
     ordering_fields = ('id', 'case', 'price',
                        ('recipient_user', 'recipient_user__userdetails__first_name'),
