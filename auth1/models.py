@@ -24,3 +24,7 @@ class UserDetail(TrackableMixin):
     @property
     def name(self):
         return "{} {}".format(self.first_name, self.last_name)
+
+    @property
+    def cases_involved(self):
+        return self.user.case.count()

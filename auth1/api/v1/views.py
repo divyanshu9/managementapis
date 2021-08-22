@@ -23,6 +23,7 @@ from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
 from .serializers import UserRoleSerializer, UserDetailSerializer
+from .filters import UserDetailFilter
 #from .token import account_activation_token
 
 
@@ -195,3 +196,14 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserDetailSerializer
     lookup_field = "user__id"
     queryset = UserDetail.objects.all().order_by("-id")
+
+
+class UserDetailListAPIView(generics.ListAPIView):
+    """
+    Content Create and List Api
+    """
+    serializer_class = UserDetailSerializer
+    filter_class = UserDetailFilter
+    ordering_fields = ('id', 'location', 'status', 'user_role', ('name', 'user__first_name'), 'created_at')
+    ordering = ['-id']
+    queryset = UserDetail.objects.all()
