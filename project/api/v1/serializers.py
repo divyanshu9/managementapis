@@ -32,7 +32,7 @@ class QuoteSerializerWithCase(serializers.ModelSerializer):
     submit_user_name = serializers.ReadOnlyField()
     recipient_user_name = serializers.ReadOnlyField()
     attachment = AttachmentSerializer(many=True, read_only=True)
-    case = CaseSerializerShort(read_only=True)
+    case_obj = CaseSerializerShort(read_only=True)
 
     class Meta:
         model = Quote
@@ -62,7 +62,7 @@ class InvoiceSerializerWithCase(serializers.ModelSerializer):
     submit_user_name = serializers.ReadOnlyField()
     recipient_user_name = serializers.ReadOnlyField()
     attachment = AttachmentSerializer(many=True, read_only=True)
-    case = CaseSerializerShort(read_only=True)
+    case_obj = CaseSerializerShort(read_only=True)
 
     class Meta:
         model = Invoice

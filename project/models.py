@@ -39,6 +39,10 @@ class Quote(TrackableMixin):
     def recipient_user_name(self):
         return "{} {}".format(self.recipient_user.first_name, self.recipient_user.last_name)
 
+    @property
+    def case_obj(self):
+        return Case.objects.get(id=self.case.id)
+
 
 class Invoice(TrackableMixin):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='case_invoice')
@@ -55,6 +59,10 @@ class Invoice(TrackableMixin):
     @property
     def recipient_user_name(self):
         return "{} {}".format(self.recipient_user.first_name, self.recipient_user.last_name)
+
+    @property
+    def case_obj(self):
+        return Case.objects.get(id=self.case.id)
 
 
 class Message(TrackableMixin):

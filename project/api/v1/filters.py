@@ -20,6 +20,7 @@ class CaseFilter(filters.FilterSet):
 class QuoteFilter(filters.FilterSet):
     created_at = filters.DateFromToRangeFilter()
     comment = filters.CharFilter(lookup_expr='icontains')
+    title = filters.CharFilter(lookup_expr='icontains')
     status = filters.CharFilter()
     price = filters.NumberFilter()
     recipient_user = filters.NumberFilter()
@@ -28,7 +29,7 @@ class QuoteFilter(filters.FilterSet):
 
     class Meta:
         model = Quote
-        fields = ['case', 'comment', 'created_at', 'status', 'price', 'recipient_user', 'submit_user']
+        fields = ['case', 'comment', 'title', 'created_at', 'status', 'price', 'recipient_user', 'submit_user']
 
 
 class InvoiceFilter(filters.FilterSet):
