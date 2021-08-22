@@ -10,6 +10,7 @@ class UserRole(TrackableMixin):
 class UserDetail(TrackableMixin):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='userdetails')
     location = models.CharField(max_length=250, blank=True)
+    revenue = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
     user_role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
 
