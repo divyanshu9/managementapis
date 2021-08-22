@@ -35,7 +35,7 @@ class QuoteListCreateAPIView(generics.ListCreateAPIView):
     """
     serializer_class = QuoteSerializerWithCase
     filter_class = QuoteFilter
-    ordering_fields = ('id', 'case', 'price',
+    ordering_fields = ('id', 'case', 'title', 'price',
                        ('recipient_user', 'recipient_user__userdetails__first_name'),
                        ('submit_user', 'submit_user__userdetails__first_name'), 'created_at')
     ordering = ['-id']
