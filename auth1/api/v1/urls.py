@@ -10,6 +10,4 @@ urlpatterns = [
     path(r'user_role/', views.UserRolesListAPIView.as_view()),
     path(r'user_detail/<int:user__id>/', views.UserRetrieveUpdateAPIView.as_view()),
     path(r'user_detail/', views.UserDetailListAPIView.as_view()),
-    url(r"^activate/b'(?P<uidb64>[0-9A-Za-z_\-]+)'/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
-        views.activate, name='activate'),
 ]

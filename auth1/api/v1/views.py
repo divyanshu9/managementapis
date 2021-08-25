@@ -12,7 +12,7 @@ from sendgrid import SendGridAPIClient
 from auth1.models import UserDetail, UserRole
 from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
-from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
+from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user
 from .serializers import UserRoleSerializer, UserDetailSerializer
 from .filters import UserDetailFilter
 
