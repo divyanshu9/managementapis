@@ -1,19 +1,10 @@
 from django.contrib.auth import authenticate
-from django.shortcuts import render
 from django.db import transaction
 from rest_framework import status, generics
-from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage, send_mail
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
-from django.http import HttpResponse
 
 from sendgrid.helpers.mail import Mail
 from sendgrid import SendGridAPIClient
@@ -24,7 +15,6 @@ from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializ
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user, geturl
 from .serializers import UserRoleSerializer, UserDetailSerializer
 from .filters import UserDetailFilter
-#from .token import account_activation_token
 
 
 sg = SendGridAPIClient("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")
@@ -49,8 +39,6 @@ class ChangePassword(APIView):
                 message = Mail(from_email="wl@cmundp.de", to_emails=email,
                                subject='Password Reset',
                                html_content='<strong>Password: </strong>{}'.format(reset_password))
-                # send_mail('One Time Password', 'Password', 'wl@cmundp.de', [email],
-                #           fail_silently=False
                 sg.send(message)
                 return Response({"message": "Password Sent on email", "flag": True},
                                 status=status.HTTP_200_OK)
@@ -141,44 +129,14 @@ class Register(APIView):
                         case_obj = case.save(client_user=user_detail)
                     else:
                         raise ValidationError(case.errors)
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your account.'
-            message = render_to_string('acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': str(urlsafe_base64_encode(force_bytes(user.pk))),
-                'token': password1
-                #'token': account_activation_token.make_token(user),
-            })
-            # email = EmailMessage(mail_subject, message, from_email="wl@cmundp.de", to=[email])
-            # email.send(fail_silently=False)
             message = Mail(from_email="wl@cmundp.de", to_emails=email,
                            subject='Your one time password',
                            html_content='<strong>Password: </strong>{}'.format(password1))
-            # send_mail('One Time Password', 'Password', 'wl@cmundp.de', [email],
-            #           fail_silently=False
             sg.send(message)
             return Response({"message": "Password sent on email"},
                             status=status.HTTP_201_CREATED)
         else:
             return Response({"message": "Please check the form filled."}, status=status.HTTP_400_BAD_REQUEST)
-
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        api_url, site_url = geturl()
-        return HttpResponse('Thank you for your email confirmation.'
-                            ' Now you can login your account.Click'
-                            ' <a href="%s/login">Here</a> to login.' % site_url)
-    else:
-        return HttpResponse('Activation link is invalid!')
 
 
 class UserRolesListAPIView(generics.ListAPIView):

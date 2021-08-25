@@ -46,6 +46,7 @@ class Quote(TrackableMixin):
 
 class Invoice(TrackableMixin):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name='case_invoice')
+    title = models.CharField(max_length=250)
     recipient_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invoice')
     submit_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invoice_submit_user')
     price = models.IntegerField()

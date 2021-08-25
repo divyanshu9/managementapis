@@ -35,6 +35,7 @@ class QuoteFilter(filters.FilterSet):
 class InvoiceFilter(filters.FilterSet):
     created_at = filters.DateFromToRangeFilter()
     comment = filters.CharFilter(lookup_expr='icontains')
+    title = filters.CharFilter(lookup_expr='icontains')
     status = filters.CharFilter()
     price = filters.NumberFilter()
     recipient_user = filters.NumberFilter()
@@ -43,7 +44,7 @@ class InvoiceFilter(filters.FilterSet):
 
     class Meta:
         model = Invoice
-        fields = ['case', 'comment', 'created_at', 'status', 'price', 'recipient_user', 'submit_user']
+        fields = ['case', 'comment', 'title', 'created_at', 'status', 'price', 'recipient_user', 'submit_user']
 
 
 class MessageFilter(filters.FilterSet):

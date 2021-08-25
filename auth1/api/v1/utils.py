@@ -25,15 +25,3 @@ def get_tokens_for_user(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
-
-
-def geturl():
-    file_folder = os.path.join(settings.BASE_DIR)
-    file_create = os.path.join(file_folder, ".env")
-    name = open(file_create, "r")
-    lines = name.readlines()
-    k = 0
-    while k < len(lines):
-        lines[k] = lines[k].strip()
-        k += 1
-    return lines[0], lines[1]
