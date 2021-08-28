@@ -9,6 +9,7 @@ class UserRole(TrackableMixin):
 
 class UserDetail(TrackableMixin):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='userdetails')
+    name = models.CharField(max_length=250, null=True)
     location = models.CharField(max_length=250, blank=True)
     revenue = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
@@ -21,11 +22,11 @@ class UserDetail(TrackableMixin):
     @property
     def last_name(self):
         return self.user.last_name
-    
-    @property
-    def name(self):
-        return "{} {}".format(self.first_name, self.last_name)
 
     @property
     def cases_involved(self):
         return self.user.case.count()
+
+    def save(self, *args, **kwargs):
+        self.name = "{} {}".format(self.user.first_name, self.user.last_name)
+        super().save(*args, **kwargs)

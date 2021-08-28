@@ -8,7 +8,8 @@ class UserDetailFilter(filters.FilterSet):
     location = filters.CharFilter()
     status = filters.NumberFilter()
     user_role = filters.NumberFilter()
+    name = filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = UserDetail
-        fields = ['created_at', 'location', 'status', 'user_role']
+        fields = ['created_at', 'location', 'status', 'user_role', 'name']

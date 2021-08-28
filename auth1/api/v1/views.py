@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User
+import os
 
 from sendgrid.helpers.mail import Mail
 from sendgrid import SendGridAPIClient
@@ -17,7 +18,7 @@ from .serializers import UserRoleSerializer, UserDetailSerializer
 from .filters import UserDetailFilter
 
 
-sg = SendGridAPIClient("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")
+sg = SendGridAPIClient(os.environ["SEND_GRID_KEY"])
 
 
 class ChangePassword(APIView):
@@ -120,13 +121,13 @@ class Register(APIView):
                     case = CaseSerializer(data=request.data.get("case"))
                     if survey.is_valid() and responses.is_valid():
                         print("is valid survey")
-                        survey_response_obj = survey.save(submit_user=user_detail)
+                        survey_response_obj = survey.save(submit_user=user)
                         responses = responses.save(survey_response=survey_response_obj)
                     else:
                         raise ValidationError(survey.errors)
                     if case.is_valid():
                         print("is valid case")
-                        case_obj = case.save(client_user=user_detail)
+                        case_obj = case.save(client_user=user)
                     else:
                         raise ValidationError(case.errors)
             message = Mail(from_email="wl@cmundp.de", to_emails=email,

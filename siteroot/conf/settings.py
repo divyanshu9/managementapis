@@ -94,10 +94,10 @@ WSGI_APPLICATION = 'siteroot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd3sngdjmtpu3t0',
-        'USER': 'elgxciebplyenp',
-        'PASSWORD': '2feb1f6a82213d48a6d9f20468c758233afd70a36cb3088bf3f00d724015b3bd',
-        'HOST': 'ec2-52-6-77-239.compute-1.amazonaws.com',
+        'NAME': 'managementapi',
+        'USER': 'admin',
+        'PASSWORD': 'p@ssw0rd',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -155,13 +155,6 @@ STATICFILES_DIRS = (
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'wl@cmundp.de'
-EMAIL_HOST_PASSWORD = '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'
-EMAIL_PORT = 465
-
 try:
     from .local_settings import *
 except ImportError:
