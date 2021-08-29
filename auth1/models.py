@@ -14,6 +14,8 @@ class UserDetail(TrackableMixin):
     revenue = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
     user_role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
+    email = models.CharField(max_length=250, blank=True)
+    contact = models.CharField(max_length=250, blank=True)
 
     @property
     def first_name(self):
