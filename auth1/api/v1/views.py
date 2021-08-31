@@ -116,7 +116,7 @@ class Register(APIView):
                                                 last_name=last_name)
                 user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location, contact=contact)
                 #role = user_role.objects.get(id=user_role)
-                if int(user_role) == 1:
+                if user_role.name.lower() == "client":
                     survey = SurveyResponseSerializer(data=request.data.get("survey"))
                     responses = ResponseSerializer(data=request.data.get("survey")["responses"], many=True)
                     case = CaseSerializer(data=request.data.get("case"))
