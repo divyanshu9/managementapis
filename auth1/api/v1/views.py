@@ -97,6 +97,7 @@ class Register(APIView):
         first_name = request.data.get("first_name")
         last_name = request.data.get("last_name")
         location = request.data.get("location") or ""
+        contact = request.data.get("contact") or ""
         password1 = random_with_n_aplha(6)
         if email:
             user_exists = User.objects.filter(username=email).exists()
@@ -113,7 +114,7 @@ class Register(APIView):
             else:
                 user = User.objects.create_user(username=email, password=password1, first_name=first_name,
                                                 last_name=last_name)
-                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location)
+                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location, contact=contact)
                 #role = user_role.objects.get(id=user_role)
                 if int(user_role) == 1:
                     survey = SurveyResponseSerializer(data=request.data.get("survey"))
