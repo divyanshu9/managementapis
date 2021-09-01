@@ -14,7 +14,6 @@ class UserDetail(TrackableMixin):
     revenue = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
     user_role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
-    email = models.CharField(max_length=250, blank=True)
     contact = models.CharField(max_length=250, blank=True)
 
     @property
@@ -28,6 +27,10 @@ class UserDetail(TrackableMixin):
     @property
     def cases_involved(self):
         return self.user.case.count()
+    
+    @property
+    def email(self):
+        return self.user.username
 
     def save(self, *args, **kwargs):
         self.name = "{} {}".format(self.user.first_name, self.user.last_name)
