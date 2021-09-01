@@ -13,6 +13,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     first_name = serializers.ReadOnlyField()
     last_name = serializers.ReadOnlyField()
     cases_involved = serializers.ReadOnlyField()
+    email = serializers.ReadOnlyField()
 
     class Meta:
         model = UserDetail
