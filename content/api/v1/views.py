@@ -9,13 +9,14 @@ from django.contrib.auth.models import User
 from django_filters import rest_framework as filters
 
 from content.models import Content, ContentMeta, Comment
+from common.mixins import APIKEYMixin
 from .serializers import ContentSerializer, ContentMetaSerializer,\
     CommentCreateSerializer, CommentListSerializer
 from .filters import ContentFilter
 # Create your views here.
 
 
-class ContentListCreateAPIView(generics.ListCreateAPIView):
+class ContentListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Content Create and List Api
     """
@@ -26,7 +27,7 @@ class ContentListCreateAPIView(generics.ListCreateAPIView):
     queryset = Content.objects.all()
 
 
-class ContentMetaListCreateAPIView(generics.ListCreateAPIView):
+class ContentMetaListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Content Meta Create and List Api
     """
@@ -34,7 +35,7 @@ class ContentMetaListCreateAPIView(generics.ListCreateAPIView):
     queryset = ContentMeta.objects.all().order_by("-id")
 
 
-class CommentCreateAPIView(generics.CreateAPIView):
+class CommentCreateAPIView(APIKEYMixin, generics.CreateAPIView):
     """
     Comment Create and List Api
     """
@@ -42,7 +43,7 @@ class CommentCreateAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all().order_by("-id")
 
 
-class CommentListAPIView(generics.ListAPIView):
+class CommentListAPIView(APIKEYMixin, generics.ListAPIView):
     """
     Comment List Api
     """

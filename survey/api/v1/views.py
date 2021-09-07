@@ -2,12 +2,13 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from survey.models import Survey, Product, SurveyResponse, ProductCategory
+from common.mixins import APIKEYMixin
 from .serializers import SurveySerializer, ProductSerializer, SurveyResponseSerializer, \
     SurveyResponseCreateSerializer, SurveyResponseReadSerializer, ProductCatSerializer
 from .filters import SurveyResponseFilter, ProductFilter
 
 
-class SurveyListAPIView(generics.ListAPIView):
+class SurveyListAPIView(APIKEYMixin, generics.ListAPIView):
     """
     Survey List Api
     """
@@ -24,7 +25,7 @@ class SurveyRetrieveAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Survey.objects.all().order_by("-id")
 
 
-class SurveyResponseListAPIView(generics.ListAPIView):
+class SurveyResponseListAPIView(APIKEYMixin, generics.ListAPIView):
     """
     Survey Response List Api
     """
@@ -33,12 +34,12 @@ class SurveyResponseListAPIView(generics.ListAPIView):
     queryset = SurveyResponse.objects.all().order_by("-id")
 
 
-class SurveyResponseCreateAPIView(generics.CreateAPIView):
+class SurveyResponseCreateAPIView(APIKEYMixin, generics.CreateAPIView):
     serializer_class = SurveyResponseCreateSerializer
     queryset = SurveyResponse.objects.all().order_by("-id")
 
 
-class ProductListAPIView(generics.ListAPIView):
+class ProductListAPIView(APIKEYMixin, generics.ListAPIView):
     """
     Product List Api
     """
@@ -47,7 +48,7 @@ class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.all().order_by("-id")
 
 
-class ProductCatListAPIView(generics.ListAPIView):
+class ProductCatListAPIView(APIKEYMixin, generics.ListAPIView):
     """
     Product List Api
     """

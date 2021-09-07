@@ -11,6 +11,7 @@ from sendgrid.helpers.mail import Mail
 from sendgrid import SendGridAPIClient
 
 from auth1.models import UserDetail, UserRole
+from common.mixins import APIKEYMixin
 from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user
@@ -100,6 +101,7 @@ class Register(APIView):
         contact = request.data.get("contact") or ""
         password1 = random_with_n_aplha(6)
         user_role_obj = UserRole.objects.get(id=int(user_role))
+        api_key = request.META['HTTP_AUTHORIZATION']
         if email:
             user_exists = User.objects.filter(username=email).exists()
             user = None
@@ -115,7 +117,8 @@ class Register(APIView):
             else:
                 user = User.objects.create_user(username=email, password=password1, first_name=first_name,
                                                 last_name=last_name)
-                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location, contact=contact)
+                user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location,
+                                                        contact=contact, api_key=api_key)
                 #role = user_role.objects.get(id=user_role)
                 if user_role_obj.name.lower() == "client":
                     survey = SurveyResponseSerializer(data=request.data.get("survey"))
@@ -159,7 +162,7 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserDetail.objects.all().order_by("-id")
 
 
-class UserDetailListAPIView(generics.ListAPIView):
+class UserDetailListAPIView(APIKEYMixin, generics.ListAPIView):
     """
     Content Create and List Api
     """

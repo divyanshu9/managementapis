@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 from django_filters import rest_framework as filters
 
+from common.mixins import APIKEYMixin
 from project.models import Case, Quote, Invoice, Message, Attachment
 from .serializers import CaseSerializer, QuoteSerializer,\
     InvoiceSerializer, MessageSerializer, AttachmentSerializer,\
@@ -16,7 +17,7 @@ from .filters import CaseFilter, QuoteFilter, InvoiceFilter, MessageFilter, Atta
 # Create your views here.
 
 
-class CaseListCreateAPIView(generics.ListCreateAPIView):
+class CaseListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Case Create and List Api
     """
@@ -29,7 +30,7 @@ class CaseListCreateAPIView(generics.ListCreateAPIView):
     queryset = Case.objects.all()
 
 
-class QuoteListCreateAPIView(generics.ListCreateAPIView):
+class QuoteListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Quote Create and List Api
     """
@@ -42,7 +43,7 @@ class QuoteListCreateAPIView(generics.ListCreateAPIView):
     queryset = Quote.objects.all()
 
 
-class InvoiceListCreateAPIView(generics.ListCreateAPIView):
+class InvoiceListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Invoice Create and List Api
     """
@@ -55,7 +56,7 @@ class InvoiceListCreateAPIView(generics.ListCreateAPIView):
     queryset = Invoice.objects.all()
 
 
-class MessageListCreateAPIView(generics.ListCreateAPIView):
+class MessageListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Message Create and List Api
     """
@@ -68,7 +69,7 @@ class MessageListCreateAPIView(generics.ListCreateAPIView):
     queryset = Message.objects.all()
 
 
-class AttachmentListCreateAPIView(generics.ListCreateAPIView):
+class AttachmentListCreateAPIView(APIKEYMixin, generics.ListCreateAPIView):
     """
     Attachment Create and List Api
     """
