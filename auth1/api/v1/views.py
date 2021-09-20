@@ -12,7 +12,8 @@ from sendgrid import SendGridAPIClient
 
 from auth1.models import UserDetail, UserRole
 from common.mixins import APIKEYMixin
-from common.constant import CLIENT_TEMPLATE_ID, GUEST_TEMPLATE_ID, FROM_EMAIL
+from common.constant import CLIENT_TEMPLATE_ID, GUEST_TEMPLATE_ID,\
+    CHANGE_PASSWORD_TEMPLATE_ID, FROM_EMAIL
 from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user
@@ -43,7 +44,7 @@ class ChangePassword(APIView):
                 message.dynamic_template_data = {"username": user_obj.username, "password": reset_password,
                                                  "first_name": user_obj.first_name, "last_name": user_obj.last_name,
                                                  }
-                message.template_id = CLIENT_TEMPLATE_ID
+                message.template_id = CHANGE_PASSWORD_TEMPLATE_ID
                 sg.send(message)
                 return Response({"message": "Password Sent on email", "flag": True},
                                 status=status.HTTP_200_OK)
