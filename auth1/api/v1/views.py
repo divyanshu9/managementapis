@@ -105,7 +105,7 @@ class Register(APIView):
         contact = request.data.get("contact") or ""
         password1 = random_with_n_aplha(6)
         user_role_obj = UserRole.objects.get(id=int(user_role))
-        api_key = request.META['HTTP_AUTHORIZATION']
+        #api_key = request.META['HTTP_AUTHORIZATION']
         if email:
             user_exists = User.objects.filter(username=email).exists()
             user = None
@@ -122,7 +122,7 @@ class Register(APIView):
                 user = User.objects.create_user(username=email, password=password1, first_name=first_name,
                                                 last_name=last_name)
                 user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location,
-                                                        contact=contact, api_key=api_key)
+                                                        contact=contact)
                 #role = user_role.objects.get(id=user_role)
                 message = Mail(from_email=FROM_EMAIL, to_emails=email)
                 message.dynamic_template_data = {"username": user.username, "password": password1,
