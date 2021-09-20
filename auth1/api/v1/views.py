@@ -12,6 +12,7 @@ from sendgrid import SendGridAPIClient
 
 from auth1.models import UserDetail, UserRole
 from common.mixins import APIKEYMixin
+from common.constant import CLIENT_TEMPLATE_ID, GUEST_TEMPLATE_ID, FROM_EMAIL
 from project.api.v1.serializers import CaseSerializer
 from survey.api.v1.serializers import SurveyResponseSerializer, ResponseSerializer
 from .utils import random_with_n_digits, random_with_n_aplha, get_tokens_for_user
@@ -38,9 +39,11 @@ class ChangePassword(APIView):
             if not old_password:
                 user_obj.set_password(reset_password)
                 user_obj.save()
-                message = Mail(from_email="wl@cmundp.de", to_emails=email,
-                               subject='Password Reset',
-                               html_content='<strong>Password: </strong>{}'.format(reset_password))
+                message = Mail(from_email=FROM_EMAIL, to_emails=email)
+                message.dynamic_template_data = {"username": user_obj.username, "password": reset_password,
+                                                 "first_name": user_obj.first_name, "last_name": user_obj.last_name,
+                                                 }
+                message.template_id = CLIENT_TEMPLATE_ID
                 sg.send(message)
                 return Response({"message": "Password Sent on email", "flag": True},
                                 status=status.HTTP_200_OK)
@@ -120,6 +123,10 @@ class Register(APIView):
                 user_detail = UserDetail.objects.create(user=user, user_role_id=user_role, location=location,
                                                         contact=contact, api_key=api_key)
                 #role = user_role.objects.get(id=user_role)
+                message = Mail(from_email=FROM_EMAIL, to_emails=email)
+                message.dynamic_template_data = {"username": user.username, "password": password1,
+                                                 "first_name": user.first_name, "last_name": user.last_name,
+                                                 }
                 if user_role_obj.name.lower() == "client":
                     survey = SurveyResponseSerializer(data=request.data.get("survey"))
                     responses = ResponseSerializer(data=request.data.get("survey")["responses"], many=True)
@@ -135,10 +142,11 @@ class Register(APIView):
                         case_obj = case.save(client_user=user)
                     else:
                         raise ValidationError(case.errors)
-            message = Mail(from_email="wl@cmundp.de", to_emails=email,
-                           subject='Your one time password',
-                           html_content='<strong>Password: </strong>{}'.format(password1))
-            sg.send(message)
+
+                    message.template_id = CLIENT_TEMPLATE_ID
+                else:
+                    message.template_id = GUEST_TEMPLATE_ID
+                sg.send(message)
             return Response({"message": "Password sent on email"},
                             status=status.HTTP_201_CREATED)
         else:
