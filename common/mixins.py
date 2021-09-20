@@ -8,7 +8,7 @@ class TrackableMixin(models.Model):
     """
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    api_key = models.CharField(max_length=250, blank=True)
+    #api_key = models.CharField(max_length=250, blank=True)
 
     class Meta:
         abstract = True
